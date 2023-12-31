@@ -1,37 +1,140 @@
-import React from "react";
+import React, { useState } from "react";
 import "./main.scss";
-import App from "./App";
 import styled from "styled-components";
+import Particles from "react-particles";
+import { loadFireworksPreset } from "tsparticles-preset-fireworks";
+import Content from "./Content";
+import YouTube from "react-youtube";
 
-const BackgroundComponent = () => {
+const Background = () => {
+  const [particlesVisible, setParticlesVisible] = useState(false);
+  const playlistId = "PLclODpQJhNz7vm19Ab3k31tUX7dncoup4";
+  const [player, setPlayer] = useState(null);
+  const [showModal, setShowModal] = useState(true);
+
+  const opts = {
+    height: "0",
+    width: "0",
+    playerVars: {
+      listType: "playlist",
+      list: playlistId,
+      autoplay: 0,
+      mute: 0,
+      playsinline: 1,
+      origin: window.location.origin,
+    },
+  };
+
+  const playVideo = () => {
+    if (player) {
+      player.playVideo();
+    }
+  };
+
+  const onReady = (event) => {
+    setPlayer(event.target);
+  };
+
+  const handleTwo = () => {
+    playVideo();
+    setShowModal(false);
+    console.log("oke");
+  };
+
+  const particlesInit = async (preset) => {
+    await loadFireworksPreset(preset);
+  };
+
+  const handleToggleParticles = () => {
+    setParticlesVisible((prevParticlesVisible) => !prevParticlesVisible);
+  };
+
   return (
     <Container>
-      <App />
-      <div className="gradient-bg">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.1"
-          id="Layer_1"
-          viewBox="0 0 1920 1080"
-        ></svg>
-        <div className="gradients-container">
-          <div className="g1"></div>
-          <div className="g2"></div>
-          <div className="g3"></div>
-          <div className="g4"></div>
-          <div className="g5"></div>
-          <div className="interactive"></div>
-        </div>
-      </div>
+      {showModal ? (
+        <Modal>
+          <Button onClick={handleTwo}>Play Video</Button>
+        </Modal>
+      ) : (
+        <>
+          <Meta>
+            <Content></Content>
+            <Buttons onClick={handleToggleParticles}>
+              {particlesVisible ? "Hide Particles" : "Show Particles"}
+            </Buttons>
+          </Meta>
+          <div className="gradient-bg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              id="Layer_1"
+              viewBox="0 0 1920 1080"
+            ></svg>
+            <div className="gradients-container">
+              <div className="g1"></div>
+              <div className="g2"></div>
+              <div className="g3"></div>
+              <div className="g4"></div>
+              <div className="g5"></div>
+              <div className="interactive"></div>
+            </div>
+          </div>
+          {particlesVisible && (
+            <Particles
+              init={particlesInit}
+              options={{ preset: "fireworks" }}
+              style={{ position: "absolute", zIndex: "1" }}
+            />
+          )}
+        </>
+      )}
+      <YouTube opts={opts} onReady={onReady} style={{ position: "absolute" }} />
     </Container>
   );
 };
 
 const Container = styled.div`
-  min-height: calc(100vh - 250px);
+  min-height: 100vh;
   overflow-x: hidden;
   display: block;
   position: relative;
 `;
+const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  z-index: 2;
+  background-color: black;
+`;
+const Button = styled.div`
+  cursor: pointer;
+  padding: 10px 12px;
+  background-color: maroon;
+  border-radius: 1em;
+`;
+const Meta = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+`;
+const Buttons = styled.div`
+  position: relative;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
+  padding: 10px 12px;
+  background-color: maroon;
+  border-radius: 1em;
+`;
 
-export default BackgroundComponent;
+export default Background;
