@@ -12,7 +12,7 @@ const App = () => {
     playerVars: {
       listType: "playlist",
       list: playlistId,
-      autoplay: 0, // Set autoplay to 0 to prevent immediate autoplay
+      autoplay: 0,
       mute: 0,
       playsinline: 1,
       origin: window.location.origin,
@@ -31,13 +31,21 @@ const App = () => {
 
   return (
     <Container>
-        <Button onClick={playVideo}>Play Video</Button>
-        <YouTube opts={opts} onReady={onReady} />
+      <Button onClick={playVideo}>Play Video</Button>
+      <YouTube opts={opts} onReady={onReady} />
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+`;
 const Button = styled.div`
   z-index: 1;
   cursor: pointer;
