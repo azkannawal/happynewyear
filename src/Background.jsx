@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./main.scss";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Particles from "react-particles";
 import { loadFireworksPreset } from "tsparticles-preset-fireworks";
 import Content from "./Content";
@@ -53,14 +53,14 @@ const Background = () => {
     <Container>
       {showModal ? (
         <Modal>
-          <Button onClick={handleTwo}>Play Video</Button>
+          <Button onClick={handleTwo}>Get Started</Button>
         </Modal>
       ) : (
         <>
           <Meta>
             <Content></Content>
             <Buttons onClick={handleToggleParticles}>
-              {particlesVisible ? "Hide Particles" : "Show Particles"}
+              {particlesVisible ? "Hide Mercon" : "Show Mercon"}
             </Buttons>
           </Meta>
           <div className="gradient-bg">
@@ -93,6 +93,15 @@ const Background = () => {
   );
 };
 
+const zoomAnimation = keyframes`
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+`;
+
 const Container = styled.div`
   min-height: 100vh;
   overflow-x: hidden;
@@ -114,6 +123,9 @@ const Button = styled.div`
   padding: 10px 12px;
   background-color: maroon;
   border-radius: 1em;
+  &:not(:hover) {
+    animation: ${zoomAnimation} 1s ease infinite;
+  }
 `;
 const Meta = styled.div`
   position: absolute;

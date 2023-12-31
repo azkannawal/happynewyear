@@ -17,7 +17,7 @@ const Content = () => {
       <h1>{newYearMessage}</h1>
       <Countdown
         date={Date.now() + timeLeft()}
-        onComplete={() => setNewYearMessage("Happy New Year")}
+        onComplete={() => setNewYearMessage("Happy New Year 2024")}
       />
     </Container>
   );
