@@ -38,7 +38,6 @@ const Background = () => {
   const handleTwo = () => {
     playVideo();
     setShowModal(false);
-    console.log("oke");
   };
 
   const particlesInit = async (preset) => {
